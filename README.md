@@ -7,6 +7,7 @@ Session manager service client is a lightweight http client on top of [spray cli
   libraryDependencies += "co.rc" %% "session-manager-service-client" % "1.0"
 ```
 * You can also download the compiled `jar file` here [ ![Download](https://api.bintray.com/packages/rodricifuentes1/RC-releases/session-manager-service-client/images/download.svg) ](https://bintray.com/rodricifuentes1/RC-releases/session-manager-service-client/_latestVersion)
+
 ## Usage
 ### Download the compiled version here [ ![Download](https://api.bintray.com/packages/rodricifuentes1/RC-releases/session-manager-client/images/download.svg) ](https://bintray.com/rodricifuentes1/RC-releases/session-manager-service-client/_latestVersion)
 
