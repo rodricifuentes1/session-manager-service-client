@@ -41,7 +41,7 @@ You should override this default settings in your `application.conf` file.
 
 val sessionId: String = "session-1"
 val sessionData: Option[String] = Some( "my-session-data" ) // Optional parameter
-val sessionExpirationTime: ExpirationTime = ExpirationTime( 10, "minutes" ) // Optional parameter
+val sessionExpirationTime: ExpirationTimeDTO = ExpirationTime( 10, "minutes" ) // Optional parameter
 
 val createFuture: Future[ Either[ SessionServiceClientException, HandledResponse ] ] = client.createSession( sessionId, sessionData, sessionExpirationTime )
 createFuture.map {
