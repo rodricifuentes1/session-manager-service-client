@@ -1,5 +1,12 @@
 ## Session manager service client
-Session manager service HTTP client uses [Session Manager REST Service](https://github.com/rodricifuentes1/session-manager-service) built on top of [spray.io](spray.io) to generally manage sessions for any application. 
+Session manager service client is a lightweight http client on top of [spray client](http://spray.io/documentation/1.2.2/spray-client/) that consumes [Session Manager Rest Service](https://github.com/rodricifuentes1/session-manager-service) to provide session management for any application.
+## Adding the dependency
+* Modify your `build.sbt` file
+```
+  resolvers += Resolver.bintrayRepo("rodricifuentes1", "RC-releases")
+  libraryDependencies += "co.rc" %% "session-manager-service-client" % "1.0"
+```
+* You can also download the compiled `jar file` here [ ![Download](https://api.bintray.com/packages/rodricifuentes1/RC-releases/session-manager-service-client/images/download.svg) ](https://bintray.com/rodricifuentes1/RC-releases/session-manager-service-client/_latestVersion)
 ## Usage
 ### Download the compiled version here [ ![Download](https://api.bintray.com/packages/rodricifuentes1/RC-releases/session-manager-client/images/download.svg) ](https://bintray.com/rodricifuentes1/RC-releases/session-manager-service-client/_latestVersion)
 
