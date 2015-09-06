@@ -49,8 +49,8 @@ class SessionServiceClient()( implicit system: ActorSystem, config: Config ) ext
    *         2. ErrorResponseDTO when service response is not successful
    */
   def createSession( sessionId: String,
-    sessionData: Option[ String ],
-    sessionExpirationTime: Option[ ExpirationTimeDTO ] ): Future[ Either[ SessionServiceClientException, HandledResponse ] ] = {
+    sessionData: Option[ String ] = None,
+    sessionExpirationTime: Option[ ExpirationTimeDTO ] = None ): Future[ Either[ SessionServiceClientException, HandledResponse ] ] = {
 
     // Configured timeout for request
     implicit val requestTimeout: Timeout = config.as[ FiniteDuration ]( "co.rc.smserviceclient.service.request-timeout" )
