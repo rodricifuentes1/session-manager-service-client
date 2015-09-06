@@ -35,6 +35,16 @@ class SessionServiceClient()( implicit system: ActorSystem, config: Config ) ext
   import system.dispatcher
 
   /**
+   * Pipeline builder for http requests
+   */
+  // $COVERAGE-OFF$
+  def request: HttpRequest => Future[ HttpResponse ] = {
+    val appKey: String = config.as[ String ]( "co.rc.smserviceclient.application-key" )
+    addHeader( "app-key", appKey ) ~> sendReceive
+  }
+  // $COVERAGE-ON$
+
+  /**
    * Method that sends
    * @param sessionId Session id
    * @param sessionData Session data
@@ -51,28 +61,16 @@ class SessionServiceClient()( implicit system: ActorSystem, config: Config ) ext
   def createSession( sessionId: String,
     sessionData: Option[ String ] = None,
     sessionExpirationTime: Option[ ExpirationTimeDTO ] = None ): Future[ Either[ SessionServiceClientException, HandledResponse ] ] = {
-
     // Configured timeout for request
     implicit val requestTimeout: Timeout = config.as[ FiniteDuration ]( "co.rc.smserviceclient.service.request-timeout" )
-
     // Create entity with supplied data and convert it to json object
     val entity: SessionDTO = SessionDTO( sessionId, sessionData, sessionExpirationTime )
     val jsonEntity: String = entity.asJson.nospaces
-
-    // Request required data
-    val appKey: String = config.as[ String ]( "co.rc.smserviceclient.application-key" )
-    val serviceUrl: String = getRequestUrl()
-
     // Spray client http request && http response handling
-    val request: HttpRequest => Future[ HttpResponse ] = (
-      addHeader( "app-key", appKey )
-      ~> sendReceive
-    )
     val response: Future[ HttpResponse ] = request( Post(
-      serviceUrl,
+      getRequestUrl(),
       HttpEntity( ContentTypes.`application/json`, jsonEntity )
     ) )
-
     handleServiceResponse(
       response,
       List( StatusCodes.Created, StatusCodes.Conflict ),
@@ -93,21 +91,10 @@ class SessionServiceClient()( implicit system: ActorSystem, config: Config ) ext
    *         2. ErrorResponseDTO when service response is not successful
    */
   def querySession( sessionId: String ): Future[ Either[ SessionServiceClientException, HandledResponse ] ] = {
-
     // Configured timeout for request
     implicit val requestTimeout: Timeout = config.as[ FiniteDuration ]( "co.rc.smserviceclient.service.request-timeout" )
-
-    // Request required data
-    val appKey: String = config.as[ String ]( "co.rc.smserviceclient.application-key" )
-    val serviceUrl: String = getRequestUrl( Some( sessionId ) )
-
     // Spray client http request && http response handling
-    val request: HttpRequest => Future[ HttpResponse ] = (
-      addHeader( "app-key", appKey )
-      ~> sendReceive
-    )
-    val response: Future[ HttpResponse ] = request( Get( serviceUrl ) )
-
+    val response: Future[ HttpResponse ] = request( Get( getRequestUrl( Some( sessionId ) ) ) )
     handleServiceResponse(
       response,
       List( StatusCodes.OK, StatusCodes.NotFound ),
@@ -128,21 +115,10 @@ class SessionServiceClient()( implicit system: ActorSystem, config: Config ) ext
    *         2. ErrorResponseDTO when service response is not successful
    */
   def deleteSession( sessionId: String ): Future[ Either[ SessionServiceClientException, HandledResponse ] ] = {
-
     // Configured timeout for request
     implicit val requestTimeout: Timeout = config.as[ FiniteDuration ]( "co.rc.smserviceclient.service.request-timeout" )
-
-    // Request required data
-    val appKey: String = config.as[ String ]( "co.rc.smserviceclient.application-key" )
-    val serviceUrl: String = getRequestUrl( Some( sessionId ) )
-
     // Spray client http request && http response handling
-    val request: HttpRequest => Future[ HttpResponse ] = (
-      addHeader( "app-key", appKey )
-      ~> sendReceive
-    )
-    val response: Future[ HttpResponse ] = request( Delete( serviceUrl ) )
-
+    val response: Future[ HttpResponse ] = request( Delete( getRequestUrl( Some( sessionId ) ) ) )
     handleServiceResponse(
       response,
       List( StatusCodes.OK, StatusCodes.NotFound ),

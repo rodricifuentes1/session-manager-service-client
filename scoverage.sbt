@@ -1,0 +1,1 @@
+coverageExcludedPackages := "co.rc.smserviceclient.infrastructure.*;"
