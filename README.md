@@ -100,3 +100,7 @@ deleteFuture.map {
 2. Execute `sbt` command in project directory.
 3. Execute `update` and `compile` in sbt console.
 4. To generate project for Intellij-Idea ide, execute `gen-idea` command in sbt console.
+5. To run tests execute `test` command in sbt console.
+6. To generate tests report using `scoverage` plugin, execute `coverage` and `test` commans in sbt console. This will generate tests report under `target/scala_2.11/scoverage_report` folder.
+
+### Test code coverage - 100%
