@@ -94,3 +94,8 @@ deleteFuture.map {
   } 
 }
 ```
+### Build this project
+1. `clone` this project.
+2. Execute `sbt` command in project directory.
+3. Execute `update` and `compile` in sbt console.
+4. To generate project for Intellij-Idea ide, execute `gen-idea` command in sbt console.
