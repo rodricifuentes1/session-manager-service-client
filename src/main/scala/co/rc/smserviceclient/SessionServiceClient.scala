@@ -9,7 +9,7 @@ import co.rc.smserviceclient.exceptions.{ ServiceUnavailableException, SessionSe
 import co.rc.smserviceclient.infrastructure.acl.dtos.requests.{ SessionDTO, ExpirationTimeDTO }
 import co.rc.smserviceclient.infrastructure.acl.dtos.responses.{ HandledResponse, ErrorResponseDTO, SuccessfulResponseDTO }
 
-import com.typesafe.config.Config
+import com.typesafe.config.{ ConfigFactory, Config }
 import com.typesafe.scalalogging.LazyLogging
 
 import net.ceedubs.ficus.Ficus._
@@ -27,7 +27,7 @@ import spray.http.HttpResponse
  * @param system Implicit actor system for http request
  * @param config Implicit application configuration
  */
-class SessionServiceClient()( implicit system: ActorSystem, config: Config ) extends LazyLogging {
+class SessionServiceClient( config: Config = ConfigFactory.load() )( implicit system: ActorSystem ) extends LazyLogging {
 
   /**
    * Execution context for future manipulation
@@ -129,10 +129,9 @@ class SessionServiceClient()( implicit system: ActorSystem, config: Config ) ext
   /**
    * Method that build request url
    * @param sessionId Session id
-   * @param config implicit application configuration
    * @return Built url
    */
-  private def getRequestUrl( sessionId: Option[ String ] = None )( implicit config: Config ): String = {
+  private def getRequestUrl( sessionId: Option[ String ] = None ): String = {
     // Session manager service url (ej. http://localhost:7777)
     val endpointUrl: String = config.as[ String ]( "co.rc.smserviceclient.service.url" )
     // Base path for session manager service (ej. default is 'session_manager')

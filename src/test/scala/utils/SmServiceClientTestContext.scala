@@ -21,11 +21,6 @@ abstract class SmServiceClientTestContext extends After {
   implicit val exc: ExecutionContext = system.dispatcher
 
   /**
-   * App configuration
-   */
-  implicit val config: Config = ConfigFactory.load()
-
-  /**
    * shutdown test actor system
    */
   override def after = system.shutdown()
