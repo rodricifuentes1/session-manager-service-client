@@ -4,7 +4,7 @@ Session manager service client is a lightweight http client on top of [spray cli
 * Modify your `build.sbt` file
 ```
   resolvers += Resolver.bintrayRepo("rodricifuentes1", "RC-releases")
-  libraryDependencies += "co.rc" %% "session-manager-service-client" % "1.0"
+  libraryDependencies += "co.rc" %% "session-manager-service-client" % "1.1"
 ```
 * You can also download the compiled `jar file` here [ ![Download](https://api.bintray.com/packages/rodricifuentes1/RC-releases/session-manager-service-client/images/download.svg) ](https://bintray.com/rodricifuentes1/RC-releases/session-manager-service-client/_latestVersion)
 
@@ -32,9 +32,13 @@ You should override this default settings in your `application.conf` file.
   ...
   
   implicit val system: ActorSystem = ActorSystem( "my-system" )
-  implicit val conf: Config = ConfigFactory.load()
   
+  // This will load config automatically using ConfigFactory.load()
   val client: SessionServiceClient = new SessionServiceClient()
+  
+  // You can also specify a custom config
+  val config: Config = ConfigFactory.load("custom-config.conf")
+  val client: SessionServiceClient = new SessionServiceClient( config )
 ```
 ### Create session
 ```scala
@@ -104,3 +108,8 @@ deleteFuture.map {
 6. To generate tests report using `scoverage` plugin, execute `coverage` and `test` commans in sbt console. This will generate tests report under `target/scala_2.11/scoverage_report` folder.
 
 ### Test code coverage - 100%
+## Changelog
+v1.1 (current)
+* Removed implicit config parameter for SessionServiceClient class constructor
+
+[v1.0](https://github.com/rodricifuentes1/session-manager-service-client/tree/v1.0) - First release
